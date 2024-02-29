@@ -16,7 +16,7 @@ const Page = async ({ params: { id } }: SearchParamProps) => {
   return (
     <> 
       <section className="mt-10">
-        <JobDesForm  />
+        {/* <JobDesForm  /> */}
       </section>
     </>
   );
