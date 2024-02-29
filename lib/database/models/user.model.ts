@@ -34,6 +34,19 @@ const UserSchema = new Schema({
     type: Number,
     default: 3,
   },
+  jobDescription: {
+    type: String, 
+  },
+  completeResume: {
+    type: Number, 
+  },
+  tailoredResume: [
+    {
+    skills: { type: String, default: "" },
+    workExperience: { type: String, default: "" },
+    ProjectExperience: { type: String, default: "" },
+  }
+  ],
 });
 
 const User = models?.User || model("User", UserSchema);
