@@ -20,7 +20,7 @@ const Sidebar = () => {
         <nav className="sidebar-nav">
           <SignedIn>
             <ul className="sidebar-nav_elements">
-              {navLinks.slice(0, 6).map((link) => {
+              {navLinks.slice(0, 3).map((link) => {
                 const isActive = link.route === pathname
 
                 return (
@@ -43,7 +43,7 @@ const Sidebar = () => {
 
 
             <ul className="sidebar-nav_elements">
-              {navLinks.slice(6).map((link) => {
+              {navLinks.slice(3).map((link) => {
                 const isActive = link.route === pathname
 
                 return (

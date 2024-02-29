@@ -4,31 +4,31 @@ export const navLinks = [
       route: "/",
       icon: "/assets/icons/home.svg",
     },
+    // {
+    //   label: "Image Restore",
+    //   route: "/transformations/add/restore",
+    //   icon: "/assets/icons/image.svg",
+    // },
     {
-      label: "Image Restore",
-      route: "/transformations/add/restore",
-      icon: "/assets/icons/image.svg",
-    },
-    {
-      label: "Generative Fill",
+      label: "Tailor Resume",
       route: "/transformations/add/fill",
-      icon: "/assets/icons/stars.svg",
-    },
-    {
-      label: "Object Remove",
-      route: "/transformations/add/remove",
-      icon: "/assets/icons/scan.svg",
-    },
-    {
-      label: "Object Recolor",
-      route: "/transformations/add/recolor",
       icon: "/assets/icons/filter.svg",
     },
+    // {
+    //   label: "Object Remove",
+    //   route: "/transformations/add/remove",
+    //   icon: "/assets/icons/scan.svg",
+    // },
     {
-      label: "Background Remove",
-      route: "/transformations/add/removeBackground",
-      icon: "/assets/icons/camera.svg",
+      label: "Tailor Cover Letter",
+      route: "/transformations/add/recolor",
+      icon: "/assets/icons/stars.svg",
     },
+    // {
+    //   label: "Background Remove",
+    //   route: "/transformations/add/removeBackground",
+    //   icon: "/assets/icons/camera.svg",
+    // },
     {
       label: "Profile",
       route: "/profile",
@@ -130,13 +130,13 @@ export const navLinks = [
     removeBackground: {
       type: "removeBackground",
       title: "Background Remove",
-      subTitle: "Removes the background of the image using AI",
+      subTitle: "Give us a job description and we'll tailor your resume to it.",
       config: { removeBackground: true },
       icon: "camera.svg",
     },
     fill: {
       type: "fill",
-      title: "Generative Fill",
+      title: "Tailor Resume",
       subTitle: "Enhance an image's dimensions using AI outpainting",
       config: { fillBackground: true },
       icon: "stars.svg",
@@ -152,8 +152,8 @@ export const navLinks = [
     },
     recolor: {
       type: "recolor",
-      title: "Object Recolor",
-      subTitle: "Identify and recolor objects from the image",
+      title: "Tailor Cover Letter",
+      subTitle: "Give us a job description and we'll write a tailored cover letter for it.",
       config: {
         recolor: { prompt: "", to: "", multiple: true },
       },

@@ -91,3 +91,22 @@ export async function updateCredits(userId: string, creditFee: number) {
     handleError(error);
   }
 }
+
+// ADD Job Description
+export async function updateJobDescription(userId: string, jobDes: string) {
+  try {
+    await connectToDatabase();
+
+    const updatedJobDes = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: { jobDescription: jobDes } },
+      { new: true }
+    )
+
+    if(!updatedJobDes) throw new Error("User job description update failed");
+
+    return JSON.parse(JSON.stringify(updatedJobDes));
+  } catch (error) {
+    handleError(error);
+  }
+}
