@@ -55,7 +55,7 @@ export function ResumeDrop({ action, data = null, userId, type, creditBalance, c
             </p>
             <div {...getRootProps()} style={{ marginBottom: '33px', border: '2px dashed #ccc', padding: '20px', borderRadius: '4px', textAlign: 'center', cursor: 'pointer', height: '150px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <input {...getInputProps()} />
-                <p style={{ margin: 0 }}>Drag 'n' drop a PDF file here, or click to select one</p>
+                <p style={{ margin: 0 }}>Drag and drop a PDF file here, or click to select one</p>
             </div>
             <Button type="submit" style={{ width: '100%' }}>Submit</Button>
         </form>
