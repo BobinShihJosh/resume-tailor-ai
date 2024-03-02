@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils"; 
-import { promises as fs } from 'fs'; // To save the file temporarily 
 
 // CREATE
 export async function createUser(user: CreateUserParams) {
@@ -112,8 +111,19 @@ export async function updateJobDescription(userId: string, jobDes: string) {
   }
 }
 
-export async function uploadResumeText(userId: string, file: any) {
+export async function uploadResume(userId: string, resume: string) {
   try {
+    await connectToDatabase();
+    console.log("uploading resume")
+    const updatedResume = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: { completeResume: resume } },
+      { new: true }
+    )
+
+    if(!updatedResume) throw new Error("User resume update failed");
+
+    return JSON.parse(JSON.stringify(updatedResume));
     
   } catch (error) {
     handleError(error);

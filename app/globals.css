@@ -70,6 +70,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -86,7 +87,9 @@
 .root-container {
   @apply mt-16 flex-1 overflow-auto py-8 lg:mt-0 lg:max-h-screen lg:py-10
 }
-
+.filepond--root .filepond--drop-label {
+  height: 150px;
+}
 /* ========================================== TAILWIND STYLES */
 @layer utilities {
   /* ===== UTILITIES */
@@ -195,7 +198,7 @@
   }
 
   .select-trigger {
-    @apply flex items-center  gap-2 py-5 capitalize focus-visible:outline-none;
+    @apply flex items-center gap-2 py-5 capitalize focus-visible:outline-none;
   }
 
   .select-item {
@@ -293,7 +296,7 @@
   }
 
   .media-uploader_cta-image {
-    @apply rounded-[16px] bg-white  p-5 shadow-sm shadow-purple-200/50;
+    @apply rounded-[16px] bg-white p-5 shadow-sm shadow-purple-200/50;
   }
 
   /* Navbar Component */
@@ -328,7 +331,7 @@
   }
 
   .sidebar-nav_element {
-    @apply flex-center p-16-semibold w-full whitespace-nowrap rounded-md bg-cover  transition-all hover:bg-purple-100 hover:shadow-inner ;
+    @apply flex-center p-16-semibold w-full whitespace-nowrap rounded-md bg-cover transition-all hover:bg-purple-100 hover:shadow-inner;
   }
 
   .sidebar-link {

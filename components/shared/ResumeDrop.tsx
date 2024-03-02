@@ -3,7 +3,6 @@
 import { useEffect, useState, useTransition } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/button";
-import { uploadResumeText } from "@/lib/actions/user.actions";
 // import { PDFExtract, PDFExtractOptions } from 'pdf.js-extract';
 
 export function ResumeDrop({ action, data = null, userId, type, creditBalance, config = null }: TransformationFormProps) {
