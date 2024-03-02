@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
             // });
             const parsePdfPromise = new Promise<void>((resolve) => {
                 pdfParser.on('pdfParser_dataReady', () => {
-                    console.log(pdfParser.getRawTextContent(), userId);
+                    // console.log(pdfParser.getRawTextContent(), userId);
                     parsedText = pdfParser.getRawTextContent();
                     resolve();
                 });

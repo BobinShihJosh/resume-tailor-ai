@@ -118,10 +118,11 @@ export async function uploadResume(userId: string, resume: string) {
     console.log("uploading resume", userId)
     const updatedResume = await User.findOneAndUpdate(
       { _id: userId },
-      { $set: { completeResume: resume } },
+      { $set: { uploadedResume: resume } },
       { new: true }
     )
-
+    
+    console.log("updatedResume", updatedResume)
     if(!updatedResume) throw new Error("User resume update failed");
 
     return JSON.parse(JSON.stringify(updatedResume));
