@@ -4,7 +4,7 @@ import { transformationTypes } from '@/constants'
 import { getUserById } from '@/lib/actions/user.actions';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
-import { JobDesForm } from '@/components/shared/JobDesForm';
+// import { JobDesForm } from '@/components/shared/JobDesForm';
 import { ResumeDrop } from '@/components/shared/ResumeDrop';
 import { FileUpload } from '@/components/shared/FileUpload'
 
