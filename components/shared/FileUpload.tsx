@@ -15,18 +15,18 @@ export function FileUpload({ action, data = null, userId, type, creditBalance, c
 
   const handleFileUpload = async () => {
     // Get the current FilePond instance
-    const filePondInstance = filePondRef.current;
-    if (filePondInstance) {
-      // Get the list of files currently added to FilePond
-      const files = filePondInstance.getFiles();
-      // Manually process and upload files using the FilePond server
-      try {
-        const response = await filePondInstance.processFiles(files);
-        console.log("upload success")
-      } catch (error) {
-        console.error('Error uploading files:', error);
-      }
-    }
+    // const filePondInstance = filePondRef.current;
+    // if (filePondInstance) {
+    //   // Get the list of files currently added to FilePond
+    //   const files = filePondInstance.getFiles();
+    //   // Manually process and upload files using the FilePond server
+    //   try {
+    //     const response = await filePondInstance.processFiles(files);
+    //     console.log("upload success")
+    //   } catch (error) {
+    //     console.error('Error uploading files:', error);
+    //   }
+    // }
   };
   
 
