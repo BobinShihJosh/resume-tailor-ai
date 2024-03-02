@@ -38,7 +38,8 @@ const UserSchema = new Schema({
     type: String, 
   },
   completeResume: {
-    type: String, 
+    type: String,
+    default: "-",
   },
   tailoredResume: [
     {

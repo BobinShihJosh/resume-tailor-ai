@@ -96,6 +96,7 @@ export async function updateCredits(userId: string, creditFee: number) {
 export async function updateJobDescription(userId: string, jobDes: string) {
   try {
     await connectToDatabase();
+    console.log("uploading job", userId)
 
     const updatedJobDes = await User.findOneAndUpdate(
       { _id: userId },
@@ -114,7 +115,7 @@ export async function updateJobDescription(userId: string, jobDes: string) {
 export async function uploadResume(userId: string, resume: string) {
   try {
     await connectToDatabase();
-    console.log("uploading resume")
+    console.log("uploading resume", userId)
     const updatedResume = await User.findOneAndUpdate(
       { _id: userId },
       { $set: { completeResume: resume } },

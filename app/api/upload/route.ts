@@ -43,14 +43,37 @@ export async function POST(req: NextRequest) {
                 console.log(errData.parserError)
             );
 
-            pdfParser.on('pdfParser_dataReady', () => {
-                console.log((pdfParser as any).getRawTextContent(), userId);
-                parsedText = (pdfParser as any).getRawTextContent();
+            // pdfParser.on('pdfParser_dataReady', () => {
+            //     console.log((pdfParser as any).getRawTextContent(), userId);
+            //     parsedText = (pdfParser as any).getRawTextContent();
+
+
+            // });
+            const parsePdfPromise = new Promise<void>((resolve) => {
+                pdfParser.on('pdfParser_dataReady', () => {
+                    console.log(pdfParser.getRawTextContent(), userId);
+                    parsedText = pdfParser.getRawTextContent();
+                    resolve();
+                });
             });
 
             pdfParser.loadPDF(tempFilePath);
 
-            const updatedUser = await uploadResume(parsedText, userId);
+            try {
+                // Wait for the promise to resolve (pdf parsing completed)
+                await parsePdfPromise;
+
+                // Now you can safely call uploadResume
+                console.log('updated userId:', userId);
+                const updatedUser = await uploadResume(userId, parsedText);
+                 
+
+                return NextResponse.json({ message: 'OK', user: updatedUser });
+            } catch (error) {
+                console.error('Error processing request:', error);
+                // return NextResponse.error("Internal Server Error");
+            }
+
 
             // return NextResponse.json({ message: "OK", user: updatedUser });
         } else {
@@ -59,9 +82,9 @@ export async function POST(req: NextRequest) {
     } else {
         console.log('No files found.');
     }
-     
 
-      const response = new NextResponse(parsedText);
-      response.headers.set('FileName', fileName);
-      return response;
+
+    const response = new NextResponse(parsedText);
+    response.headers.set('FileName', fileName);
+    return response;
 }
