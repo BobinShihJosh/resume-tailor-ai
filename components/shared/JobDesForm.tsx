@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { updateJobDescription } from "@/lib/actions/user.actions"
 
 const formSchema = z.object({
@@ -47,23 +47,25 @@ export function JobDesForm({ action, data = null, userId, type, creditBalance, c
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <p style={{ fontSize: '18px'  }}>
+        <span style={{ fontSize: '34px', fontWeight: 'bold' }}>1. </span>Copy and paste the Job description here:
+      </p>
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Job Description</FormLabel>
+            <FormItem> 
               <FormControl>
-                <Input placeholder="Software engineer..." {...field} />
+                <Textarea placeholder="Software engineer..." {...field} style={{ height: '150px' }} />
               </FormControl>
-              <FormDescription>
+              {/* <FormDescription>
                 Copy and paste relevent information from job description.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" style={{ width: '100%' }}>Submit</Button>
       </form>
     </Form>
   )

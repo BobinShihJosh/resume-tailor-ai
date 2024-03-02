@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
-import { handleError } from "../utils";
+import { handleError } from "../utils"; 
+import { promises as fs } from 'fs'; // To save the file temporarily 
 
 // CREATE
 export async function createUser(user: CreateUserParams) {
@@ -106,6 +107,14 @@ export async function updateJobDescription(userId: string, jobDes: string) {
     if(!updatedJobDes) throw new Error("User job description update failed");
 
     return JSON.parse(JSON.stringify(updatedJobDes));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function uploadResumeText(userId: string, file: any) {
+  try {
+    
   } catch (error) {
     handleError(error);
   }
