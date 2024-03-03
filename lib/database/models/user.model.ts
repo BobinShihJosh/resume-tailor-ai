@@ -37,12 +37,8 @@ const UserSchema = new Schema({
   jobDescription: {
     type: String, 
   },
-  uploadedResume: {
-    type: String, 
-  },
   completeResume: {
-    type: String,
-    default: "-",
+    type: String, 
   },
   tailoredResume: [
     {
