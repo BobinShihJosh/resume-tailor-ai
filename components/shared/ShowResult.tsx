@@ -19,7 +19,7 @@ if (typeof window !== 'undefined') {
 
 interface ShowResultProps {
     UserId: string;
-    clerkID: string | null; 
+    clerkID: string | null;
     tmpResumeSections: {
         skills: string;
         workExperience: string[];
@@ -203,7 +203,7 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
         }
     }
 
-    
+
     interface ResumeSectionProps {
         resumeSection: string;
         index: number;
@@ -226,7 +226,7 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
                 {subSecLoading?.projectExperience[index] ? (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15vh' }}>
                         <l-jelly
-                            size="52" 
+                            size="52"
                             speed="1.6"
                             color="black"
                         ></l-jelly>
@@ -272,7 +272,7 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
                 {subSecLoading?.workExperience[index] ? (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
                         <l-jelly
-                            size="52" 
+                            size="52"
                             speed="1.6"
                             color="black"
                         ></l-jelly>
@@ -315,7 +315,7 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
     if (loading) {
         return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
             <l-jelly
-                size="135" 
+                size="135"
                 speed="1.6"
                 color="black"
             ></l-jelly>
@@ -323,80 +323,83 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
     } else {
         return (
             <div style={{ margin: '0 auto', textAlign: 'center' }}>
-                
-                { !resumeSections ? (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', 
-                      fontSize:'20px'}}>
-                        Upload a job description and your resume to get started!
-                      </div>
-                ) : (
-                (
-                    <div style={{ marginTop: '20px', textAlign: 'left' }}>
 
-                        {/* Render Skills Section */}
-                        <h2 style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>Skills:</h2>
-
-
-                        <div>
-                            {subSecLoading?.skills ? (
-                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15vh' }}>
-                                    <l-jelly
-                                        size="52" 
-                                        speed="1.6"
-                                        color="black"
-                                    ></l-jelly>
-                                </div>
-                            ) : (
-                                <>
-                                    {editMode.skills ? (
-                                        <textarea
-                                            value={resumeSections.skills}
-                                            onChange={e => handleSkillsSectionChange('skills' as ResumeSectionKeys, e.target.value)}
-                                            rows={10}
-                                            cols={100}
-                                        />
-                                    ) : (
-                                        resumeSections.skills.split(/(\*\*.+?\*\*)/).map((part, index) => {
-                                            if (part.startsWith('**') && part.endsWith('**')) {
-                                                return <strong key={index}>{part.slice(2, -2)}</strong>;
-                                            } else {
-                                                return part.split('\n').map((line, i) => (
-                                                    <span key={i}>
-                                                        {line}
-                                                        {i < part.split('\n').length - 2 && <br />}
-                                                    </span>
-                                                ));
-                                            }
-                                        })
-                                    )}
-                                    <div style={{ marginTop: '10px' }}>
-                                        <Button style={{ marginBottom: '10px' }} onClick={() => toggleSkillsEditMode('skills')}>
-                                            {editMode.skills ? 'Save' : 'Edit'}
-                                        </Button>
-                                        <Button style={{ marginLeft: '10px' }} onClick={() => handleSectionFeedback('skills' as ResumeSectionKeys, 'skills')}>
-                                            Re-Tailor
-                                        </Button>
-                                    </div>
-                                </>
-                            )}
+                {!resumeSections ? (
+                    <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', fontSize: '16px' }}>
+                        <img src="/assets/images/cat.svg" alt="cat" style={{ width: '550px', height: '550px' }} />
+                        <div style={{ position: 'absolute', bottom: '620px', fontSize: '24px' }}>
+                            Upload a job description and your resume to get started!
                         </div>
-
-
-
-                        {/* Render Work Experience Section */}
-                        <h2 style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '1.5rem' }}>Work Experience:</h2>
-                        {resumeSections.workExperience.map((workExperience, index) => (
-                            parseWorkExperience({ resumeSection: workExperience, index })
-                        ))}
-
-                        {/* Render Project Experience Section */}
-                        <h2 style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '1.5rem' }}>Project Experience:</h2>
-
-                        {resumeSections.projectExperience.map((projectExperience, index) => (
-                            parseProjectExperience({ resumeSection: projectExperience, index })
-                        ))}
                     </div>
-                )) }
+
+                ) : (
+                    (
+                        <div style={{ marginTop: '20px', textAlign: 'left' }}>
+
+                            {/* Render Skills Section */}
+                            <h2 style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>Skills:</h2>
+
+
+                            <div>
+                                {subSecLoading?.skills ? (
+                                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15vh' }}>
+                                        <l-jelly
+                                            size="52"
+                                            speed="1.6"
+                                            color="black"
+                                        ></l-jelly>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {editMode.skills ? (
+                                            <textarea
+                                                value={resumeSections.skills}
+                                                onChange={e => handleSkillsSectionChange('skills' as ResumeSectionKeys, e.target.value)}
+                                                rows={10}
+                                                cols={100}
+                                            />
+                                        ) : (
+                                            resumeSections.skills.split(/(\*\*.+?\*\*)/).map((part, index) => {
+                                                if (part.startsWith('**') && part.endsWith('**')) {
+                                                    return <strong key={index}>{part.slice(2, -2)}</strong>;
+                                                } else {
+                                                    return part.split('\n').map((line, i) => (
+                                                        <span key={i}>
+                                                            {line}
+                                                            {i < part.split('\n').length - 2 && <br />}
+                                                        </span>
+                                                    ));
+                                                }
+                                            })
+                                        )}
+                                        <div style={{ marginTop: '10px' }}>
+                                            <Button style={{ marginBottom: '10px' }} onClick={() => toggleSkillsEditMode('skills')}>
+                                                {editMode.skills ? 'Save' : 'Edit'}
+                                            </Button>
+                                            <Button style={{ marginLeft: '10px' }} onClick={() => handleSectionFeedback('skills' as ResumeSectionKeys, 'skills')}>
+                                                Re-Tailor
+                                            </Button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+
+
+
+                            {/* Render Work Experience Section */}
+                            <h2 style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '1.5rem' }}>Work Experience:</h2>
+                            {resumeSections.workExperience.map((workExperience, index) => (
+                                parseWorkExperience({ resumeSection: workExperience, index })
+                            ))}
+
+                            {/* Render Project Experience Section */}
+                            <h2 style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '1.5rem' }}>Project Experience:</h2>
+
+                            {resumeSections.projectExperience.map((projectExperience, index) => (
+                                parseProjectExperience({ resumeSection: projectExperience, index })
+                            ))}
+                        </div>
+                    ))}
             </div>
         )
     }

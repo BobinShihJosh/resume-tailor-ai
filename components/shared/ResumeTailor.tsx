@@ -146,9 +146,9 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ flex: '1', maxWidth: '35%', overflowY: 'auto', marginRight: 'auto', marginLeft: '0', marginTop: '20px' }}>
+      <div style={{ flex: '1', maxWidth: '35%', overflowY: 'auto', marginRight: 'auto', marginLeft: '0', marginTop: '50px' }}>
         <section style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ width: '93%', maxWidth: '400px', marginBottom: '20px', marginLeft: '10px' }}>
+          <div style={{ width: '93%', maxWidth: '400px', marginBottom: '60px', marginLeft: '10px' }}>
             <JobDesForm
               action="Add"
               userId={userId}
@@ -168,9 +168,13 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               onCompletion={handleFileUploadCompletion}
             />
             <div style={{ marginTop: '50px' }}>
-              <Button style={{ height: '65px', width: '100%', fontSize: '1.5rem', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={handleButtonClick}>
+              {/* <Button style={{ height: '45px', width: '100%', fontSize: '1.5rem', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={handleButtonClick}>
                 <CookieIcon className="mr-2 h-6 w-6" /> Tailor Resume
-              </Button>
+              </Button> */}
+              <button className='btn-55 ' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%'}} onClick={handleButtonClick}>
+        <span> Tailor Resume</span>
+        {/* Any SVG or other content goes here */}
+      </button>
             </div>
           </div>
 

@@ -31,7 +31,7 @@
     "next": "14.1.0",
     "openai": "^4.28.4",
     "pdf-parse": "^1.1.1",
-    "pdf2json": "^3.0.5",
+    "pdf2json": "github:kylerob/pdf2json#fix-createScratchCanvas-import",
     "pdfjs-dist": "^4.0.379",
     "qs": "^6.11.2",
     "react": "^18",
