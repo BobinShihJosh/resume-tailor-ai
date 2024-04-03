@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         const uploadedFile = uploadedFiles[1];
 
         // Check if uploadedFile is of type File
-        if (uploadedFile instanceof File) {
+        if (uploadedFile && typeof uploadedFile === 'object' && 'arrayBuffer' in uploadedFile) {
             // Generate a unique filename
             fileName = uuidv4();
 
