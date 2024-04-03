@@ -10,23 +10,26 @@ import { Button } from "@/components/ui/button";
 // Make sure to install the required plugins using npm or yarn
 registerPlugin(FilePondPluginFileValidateType); 
 
-export function FileUpload({ action, data = null, userId, type, creditBalance, config = null }: TransformationFormProps) {
-  const filePondRef = useRef(null);
+export function FileUpload({ action, data = null, userId, type, creditBalance, config = null, onCompletion }: TransformationFormProps) {
+  const filePondRef = useRef<FilePond | null>(null); // Replace FilePond with the actual type if needed
 
   const handleFileUpload = async () => {
     // Get the current FilePond instance
-    // const filePondInstance = filePondRef.current;
-    // if (filePondInstance) {
-    //   // Get the list of files currently added to FilePond
-    //   const files = filePondInstance.getFiles();
-    //   // Manually process and upload files using the FilePond server
-    //   try {
-    //     const response = await filePondInstance.processFiles(files);
-    //     console.log("upload success")
-    //   } catch (error) {
-    //     console.error('Error uploading files:', error);
-    //   }
-    // }
+    const filePondInstance = filePondRef.current; 
+    if (filePondInstance) {
+      // Assuming you've imported FilePond type, replace it with the actual type if needed
+       
+      try {
+        const files = filePondInstance.getFiles();
+        // Assuming you've imported FilePond type, replace it with the actual type if needed
+        const response = await (filePondInstance as any).processFiles(files);
+        console.log("upload success");
+
+        onCompletion && onCompletion();
+      } catch (error) {
+        console.error('Error uploading files:', error);
+      }
+    }
   };
   
 
@@ -52,15 +55,16 @@ export function FileUpload({ action, data = null, userId, type, creditBalance, c
           },
         }}
         maxFiles={1}
-        instantUpload={false}
+        instantUpload={true}
         acceptedFileTypes={['application/pdf']}
         labelIdle='Drag & Drop your Resume or <span class="filepond--label-action">Browse</span>'
         onprocessfiles={() => {
           // Handle files when they are processed/uploaded
           console.log('Files processed/uploaded');
+          onCompletion && onCompletion();
         }}
       /> 
-      <Button type="submit" style={{ width: '100%', marginTop:'18px' }} onClick={handleFileUpload}>Submit</Button>
+      {/* <Button type="submit" style={{ width: '100%', marginTop:'18px' }} onClick={handleFileUpload}>Submit</Button> */}
 
     </div>
   );

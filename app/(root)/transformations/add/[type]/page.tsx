@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import { JobDesForm } from '@/components/shared/JobDesForm';
 import { ResumeDrop } from '@/components/shared/ResumeDrop';
 import { FileUpload } from '@/components/shared/FileUpload'
+import ResumeTailor from '@/components/shared/ResumeTailor';
 
 const AddTransformationTypePage = async ({ params: { type } }: SearchParamProps) => {
   const { userId } = auth();
@@ -18,33 +19,21 @@ const AddTransformationTypePage = async ({ params: { type } }: SearchParamProps)
 
   return (
     <>
-      <Header
-        title={transformation.title}
-        subtitle={transformation.subTitle}
-      />
-      <div style={{ display: 'flex', flexDirection: 'row',  width: '100%'  }}>
-        <section className="mt-10 mr-10" style={{ width: '50%' }}>
-          <JobDesForm
-            action="Add"
-            userId={user._id}
-            type={transformation.type as TransformationTypeKey}
-            creditBalance={user.creditBalance}
-          />
-          
-        </section>
-        <section className="mt-10   " style={{ width: '50%' }}>
-          {/* <ResumeDrop 
-            action="Add"
-            userId={user._id}
-            type={transformation.type as TransformationTypeKey}
-            creditBalance={user.creditBalance}/> */}
-            <FileUpload
-            action="Add"
-            userId={user._id}
-            type={transformation.type as TransformationTypeKey}
-            creditBalance={user.creditBalance}/>
-        </section>
-      </div>
+       {/* <div style={{ textAlign: 'center', paddingBottom: '20px', paddingLeft: '420px' }}> 
+    <Header
+      title={transformation.title}
+      subtitle={transformation.subTitle}
+    />
+  </div> */}
+      <section >
+        <ResumeTailor
+          action="Add"
+          userId={user._id}
+          clerkId={userId}
+          type={transformation.type as TransformationTypeKey}
+          creditBalance={user.creditBalance}
+        />
+      </section>
     </>
   )
 }

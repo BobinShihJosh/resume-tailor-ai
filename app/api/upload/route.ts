@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
 
     if (uploadedFiles && uploadedFiles.length > 0) {
         const uploadedFile = uploadedFiles[1];
-        console.log('Uploaded file:', uploadedFile);
 
         // Check if uploadedFile is of type File
         if (uploadedFile instanceof File) {
@@ -64,7 +63,6 @@ export async function POST(req: NextRequest) {
                 await parsePdfPromise;
 
                 // Now you can safely call uploadResume
-                console.log('updated userId:', userId);
                 const updatedUser = await uploadResume(userId, parsedText);
                  
 

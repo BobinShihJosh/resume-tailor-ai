@@ -137,7 +137,7 @@ export const navLinks = [
     fill: {
       type: "fill",
       title: "Tailor Resume",
-      subTitle: "Enhance an image's dimensions using AI outpainting",
+      subTitle: "Give us a job description and we'll tailor your resume to it.",
       config: { fillBackground: true },
       icon: "stars.svg",
     },
