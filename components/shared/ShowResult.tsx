@@ -31,7 +31,7 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
 
     const [isPending, startTransition] = useTransition()
     const [loading, setLoading] = useState(false);
-    const [generatedBios, setGeneratedBios] = useState("sdsdsd");
+    const [generatedBios, setGeneratedBios] = useState(" ");
     const [resumeSections, setResumeSections] = useState<{
         skills: string;
         workExperience: string[];
