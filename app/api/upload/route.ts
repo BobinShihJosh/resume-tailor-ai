@@ -80,8 +80,8 @@ export async function POST(req: NextRequest) {
     } else {
         console.log('No files found.');
     }
-
-
+    console.log("pased tes")
+    console.log(parsedText)
     const response = new NextResponse(parsedText);
     response.headers.set('FileName', fileName);
     return response;

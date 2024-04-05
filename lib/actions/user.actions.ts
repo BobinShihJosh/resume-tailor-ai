@@ -140,28 +140,68 @@ export async function tailorSubSection(userId: string, subSection: string, subNa
   const user = await getUserById(userId);
 
   const jobDesText = user.jobDescription
- 
-  const rephrasedSection = await openai.chat.completions.create({
-    messages: [
-      { "role": "system", "content": `You are an assistant that will tailor a resume ${subName} description to the given job description.` },
-      { "role": "user", "content": `Here's the description from resume ${subName} ${subSection}. Rephrase the description(Keep the same format, i.e bullet point) to fit the job description given here ${jobDesText}.  remember this is for a resume so concise and to the point. Don't hallunicate, based on given bullet points, rephrase to use the tools, skills and technologies mentioned in job description. Don't delete the given bullet points, only improve it and add new ones by giving example of an accomplishment. Use this sentence structure(with different words): Implemented... by utilizing...(technology)...achieved...(results, include a made up metric/stat). Keep the headings, i.e Company, role, date, project, if they exist intact.`},
-    ],
-    model: "gpt-3.5-turbo",
-  });
+  let rephraseFinal;
 
-  const rephrasedSkills = await openai.chat.completions.create({
-    messages: [
-      { "role": "system", "content": `You are an assistant that will tailor a resume ${subName} description to the given job description.` },
-      { "role": "user", "content": `Here's the description from resume ${subName} ${subSection}. Keeping the same format, add to the list by finding all relevent skills/technologies/frameworks/libraries in job description ${jobDesText}.`},
-    ],
-    model: "gpt-3.5-turbo",
-  });
+  if (subName !== 'skills') {
+    rephraseFinal = await openai.chat.completions.create({
+      messages: [
+        { "role": "system", "content": `You are an assistant that will tailor a resume ${subName} description to the given job description.` },
+        { "role": "user", "content": `Here's the description from resume ${subName} ${subSection}. Rephrase the description(Keep the same format, i.e bullet point) to fit the job description given here ${jobDesText}.  remember this is for a resume so concise and to the point. Don't hallunicate, based on given bullet points, rephrase to use the tools, skills and technologies mentioned in job description. Don't delete the given bullet points, only improve it and add new ones by giving example of an accomplishment. Use this sentence structure(with different words): Implemented... by utilizing...(technology)...achieved...(results, include a made up metric/stat). Keep the headings, i.e Company, role, date, project, if they exist intact.` },
+      ],
+      model: "gpt-3.5-turbo", 
+    });
+  } else {
+    rephraseFinal = await openai.chat.completions.create({
+      messages: [
+        { "role": "system", "content": `You are an assistant that will tailor a resume ${subName} description to the given job description.` },
+        { "role": "user", "content": `Here's the description from resume ${subName} ${subSection}. Keeping the same format, add to the list by finding all relevent skills/technologies/frameworks/libraries in job description ${jobDesText}.` },
+      ],
+      model: "gpt-3.5-turbo", 
+    });
+  }
 
-  const reSubsection = subName == 'skills' ? rephrasedSkills.choices[0]?.message.content || "" : rephrasedSection.choices[0]?.message.content || ""; 
-  const tailoredSection = {
-    subSection: reSubsection,
+  const reSubsection = rephraseFinal.choices && rephraseFinal.choices.length > 0 ? rephraseFinal.choices[0]?.message.content : "";
+
+  const completeSubsection: {
+    subSection: string;
+  } = {
+    subSection: reSubsection as string,
   };
-  return tailoredSection
+
+  return completeSubsection;
+
+
+}
+
+export async function splitSections(jobDesText: string, resumeText: string) {
+  try {
+    const getSection = async (sectionPrompt: string, sectionAction: string) => {
+      const sectionResponse = await openai.chat.completions.create({
+        messages: [
+          { "role": "system", "content": `You are an assistant that given a resume will extract ${sectionPrompt} info` },
+          { "role": "user", "content": `Here's the resume \n${resumeText}. Leave the content exactly as it is, but extract the ${sectionPrompt} section. For ${sectionPrompt}, ${sectionAction}.` },
+        ],
+        model: "gpt-3.5-turbo",
+      });
+      console.log("----------------------------------------------------")
+      console.log(sectionResponse.choices[0]?.message.content || "")
+      return sectionResponse.choices[0]?.message.content || "";
+    };
+
+    const skillsText = await getSection("skills", ` Your response only contains original information from the given resume. don't include titles or headings such as "skills" just go straight to the content.`);
+    const workExpText = await getSection("work experience", `Divide work experience section into subsections prefixed by "Company: ", "Role: ", "Date: ", "Description: ".  If you can't find any related info leave it blank.  Your response only contains the prefixes and original information from the given resume.`);
+    const projectExperienceText = await getSection("project experience", `Divide project experience section into subsections prefixed by "Project: ", "Description: " If you can't find any related info leave it blank. Your response only contains the prefixes and original information from the given resume. `);
+
+    // Create a JSON object with the gathered information
+    const resumeSections = {
+      skills: skillsText,
+      workExperience: workExpText,
+      projectExperience: projectExperienceText,
+    }; 
+    return resumeSections;
+  } catch (error) {
+    handleError(error);
+  }
 }
 
 export async function tailorResume(userId: string) {
@@ -196,7 +236,6 @@ export async function tailorResume(userId: string) {
       projectExperience: projectExperienceText,
     };
 
-    console.log(resumeSections);
     // const workExperienceText: string = workExperience.choices[0]?.message.content || "";
 
     const tailorSection = async (sectionName: string, sectionData: string, sectionFormat: string) => {
@@ -213,20 +252,20 @@ export async function tailorResume(userId: string) {
 
     const tailorSkills = async (sectionName: string, sectionData: string) => {
       const sectionResponse = await openai.chat.completions.create({
-          messages: [
-              {"role": "system", "content": `You are an assistant that tailors given resume skills section based on a given job description. `},
-              {"role": "user", "content": `Here's the skills section of the resume \n${sectionData}. Here's the job description \n${jobDesText}. Now based on the job description find all the frameworks/libraries/programing languages/databases/technologies needed and add that to the skills section that already exists. don't include titles or headings such as "tailored/additional skills" just go straight to the content. `},
-          ],
-          model: "gpt-3.5-turbo",
+        messages: [
+          { "role": "system", "content": `You are an assistant that tailors given resume skills section based on a given job description. ` },
+          { "role": "user", "content": `Here's the skills section of the resume \n${sectionData}. Here's the job description \n${jobDesText}. Now based on the job description find all the frameworks/libraries/programing languages/databases/technologies needed and add that to the skills section that already exists. don't include titles or headings such as "tailored/additional skills" just go straight to the content. ` },
+        ],
+        model: "gpt-3.5-turbo",
       });
 
       return sectionResponse.choices[0]?.message.content || "";
-  };
+    };
 
-    const tailSkills = await tailorSkills("skills",  resumeSections.skills);
+    const tailSkills = await tailorSkills("skills", resumeSections.skills);
     const tailWork = await tailorSection("work experience", resumeSections.workExperience, 'Company: example company Inc.\n' + 'Role: example role\n' + 'Date: 06/2023 - 09/2023\n' + 'Description:\n' + '- example work exp bullet point 1 \n' + '- example work exp bullet point 2 \n' + '- example work exp bullet point 3 \n');
-    
-    const tailProject = await tailorSection("project experience",  resumeSections.projectExperience, 'Project: example project\n' + 'Description: \n' + '- example project bullet point 1 \n' + '- example project bullet point 2 \n' + '- example project bullet point 3 \n');
+
+    const tailProject = await tailorSection("project experience", resumeSections.projectExperience, 'Project: example project\n' + 'Description: \n' + '- example project bullet point 1 \n' + '- example project bullet point 2 \n' + '- example project bullet point 3 \n');
 
     // Create a JSON object with the tailored resume information
     const tailoredResumeSections = {
@@ -235,8 +274,6 @@ export async function tailorResume(userId: string) {
       projectExperience: tailProject,
     };
 
-    console.log("==============================\n")
-    console.log(tailoredResumeSections)
 
     return tailoredResumeSections
   } catch (error) {

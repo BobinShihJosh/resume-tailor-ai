@@ -31,6 +31,7 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
 
     const [isPending, startTransition] = useTransition()
     const [loading, setLoading] = useState(false);
+    const [generatedBios, setGeneratedBios] = useState("sdsdsd");
     const [resumeSections, setResumeSections] = useState<{
         skills: string;
         workExperience: string[];
@@ -156,6 +157,42 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
         }
     }, [resumeSections]);
 
+    async function fetchAndProcessSubsection(clerkID: string, subsectionToProcess: string, secName: string): Promise<any> {
+        try {
+            // Make a POST request to your API route
+            const response = await fetch('/api/gptResponse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: clerkID,
+                    subSection: subsectionToProcess,
+                    subName: secName,
+                }),
+            });
+
+            // Check if the request was successful
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+
+            // Parse the response JSON
+            const data = await response.json();
+
+            // Process the response data as needed
+            console.log('Processed Subsection:', data);
+            // You can use the processed subsection data here
+
+            // Return the processed data if needed
+            return data;
+        } catch (error) {
+            console.error('Error occurred while fetching and processing subsection:', error);
+            // Handle errors gracefully
+            throw error; // You might want to throw the error for the caller to handle
+        }
+    }
+
     const handleSectionFeedback = async (section: ResumeSectionKeys, secName: string, index?: number) => {
         // Asynchronous operation (e.g., API call, fetching data, etc.)
 
@@ -175,27 +212,35 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
                 try {
                     if (clerkID !== null) {
                         // setLoading(true);
-
                         handleLoading(section, secName, true, index);
-                        const completeSubsection = await tailorSubSection(clerkID, subsectionToProcess, secName);
-                        if (completeSubsection !== null) {
-                            // const parsedResume = JSON.parse(completeResume);
-                            // setResumeSections(completeResume || null);
 
-                            if (secName !== 'skills' && index !== undefined) {
-                                handleSectionChange(section, completeSubsection.subSection, index);
-                            } else {
-                                handleSkillsSectionChange(section, completeSubsection.subSection);
-                            }
-                        }
+                        console.log("handleloading")
+                        // const completeSubsection = await tailorSubSection(clerkID, subsectionToProcess, secName);
+                        fetchAndProcessSubsection(clerkID, subsectionToProcess, secName)
+                            .then(async (processedData) => {
+                                if (processedData !== null) {
+                                    // const parsedResume = JSON.parse(completeResume);
+                                    // setResumeSections(completeResume || null);
+
+                                    if (secName !== 'skills' && index !== undefined) {
+                                        handleSectionChange(section, processedData.subSection, index);
+                                    } else {
+                                        handleSkillsSectionChange(section, processedData.subSection);
+                                    }
+                                    handleLoading(section, secName, false, index);
+                                }
+                            })
+                            .catch((error) => {
+                                // Handle errors gracefully
+                            });
+
+
 
                     } else {
                         console.log("user id is null (clerl)")
                     }
                 } catch (error) {
                     console.error('Error during async operation:', error);
-                } finally {
-                    handleLoading(section, secName, false, index);
                 }
             } else {
                 alert("no text or not signed in")
@@ -238,7 +283,12 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
                                 currentProject = line.replace('Project:', '').trim();
                                 return <h3 key={idx} style={{ fontWeight: 'bold', marginTop: 10 }}>Project: {currentProject}</h3>;
                             } else {
-                                return <p key={idx}>{line}</p>;
+                                const boldFormattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                                // Use dangerouslySetInnerHTML to render HTML with bold styling
+                                return (
+                                    <p key={idx} dangerouslySetInnerHTML={{ __html: boldFormattedLine }}></p>
+                                );
                             }
                         })}
                         <Button style={{ marginTop: '10px', marginBottom: '10px' }} onClick={() => toggleEditMode('projectExperience', index)}>
@@ -288,14 +338,13 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
                                 return <p key={idx} style={{ fontWeight: 'bold' }}>{line}</p>;
                             } else if (line.startsWith('Description:')) {
                                 return <p key={idx}>{line.replace('Description:', '').trim()}</p>;
-                            } else if (line.startsWith('Project:')) {
-                                return <h3 key={idx} style={{ fontWeight: 'bold', marginTop: 10 }}>{
-                                    currentCompany = line.replace('Project:', '').trim()
-                                }</h3>;
-                            } else if (line.startsWith('Skills:')) {
-                                return null;
                             } else {
-                                return <p key={idx}> {line}</p>;
+                                const boldFormattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                                // Use dangerouslySetInnerHTML to render HTML with bold styling
+                                return (
+                                    <p key={idx} dangerouslySetInnerHTML={{ __html: boldFormattedLine }}></p>
+                                );
                             }
                         })}
                         <Button style={{ marginTop: '10px', marginBottom: '10px' }} onClick={() => toggleEditMode('workExperience', index)}>
@@ -323,7 +372,7 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
     } else {
         return (
             <div style={{ margin: '0 auto', textAlign: 'center' }}>
-
+                <p>{generatedBios}</p>
                 {!resumeSections ? (
                     <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', fontSize: '16px' }}>
                         <img src="/assets/images/cat.svg" alt="cat" style={{ width: '550px', height: '550px' }} />
