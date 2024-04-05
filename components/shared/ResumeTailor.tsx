@@ -31,8 +31,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
   const [jobDesFormCompleted, setJobDesFormCompleted] = useState(false);
   const [fileUploadCompleted, setFileUploadCompleted] = useState(false);
-  const [jobDesForm, setJobDesForm] = useState("");
-  const [fileUpload, setFileUpload] = useState("");
+  const [ idle, setIdle ] = useState(true);
   const { messages, input, append, handleInputChange, handleSubmit } = useChat();
   const [showOriginal, setShowOriginal] = useState(true);
   const [newestMessage, setNewestMessage] = useState<any>(null); // Update with the correct type for newestMessage
@@ -83,51 +82,10 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
   }, [prevLoadingTextIndex]);
 
   const handleButtonClick = async () => {
-    // const completeResume = {
-    //   skills: '**Programming Languages**: C/C++, Python, Javascript, Java, SQL, SystemVerilog, HTML/CSS\n' +
-    //     '\n' + '**Libraries/Frameworks**: React.js, node.js, npm, Express, django, PostgreSQL, AWS, Docker, PyTorch\n' +
-    //     '\n' + '**Tools/Protocols**: TCP/IP, Routing(BGP, OSPF), Arduino, Git, CI/CD, CUDA, RTOS, JIRA\n' +
-    //     '\n' + 'These skills cover a range of programming languages, frameworks, libraries, and tools commonly used in software engineering and development roles.',
-    //   workExperience:
-    //     ['Company: Arista Networks Inc.\n' +
-    //       'Role: Software Engineer Intern\n' +
-    //       'Date: 06/2023 - 09/2023\n' +
-    //       'Location: Santa Clara, CA\n' +
-    //       'Description: ' +
-    //       '•Implemented and shipped a production feature that enables customers to hide their network traﬀic(bridged) within segments(Subnets/Vlans/Ips) decreasing the risk of data ex-filtration and eavesdropping.(C++, GDB)\n' +
-    //       '•Enhanced network diagnostic capabilities for customers by developing a dynamic database that maintains a network logical port ID to interface ID mapping, improving interface ID lookup time by 10x.\n' +
-    //       '\n',
-    //     'Company: Garmin Ltd.\n' +
-    //     'Role: Software Engineer\n' +
-    //     'Date: 01/2021 - 08/2022\n' +
-    //     'Location: Remote\n' +
-    //     'Description: ' +
-    //     '•Led the development of 2 features: Voice Assistant and Bluetooth-Calling on Smartwatch (APAC version), allowing customers to voice-command basic actions and answer phone calls on their watches.(C++)\n' +
-    //     '•Enhance the eﬀiciency of the on-device voice assistant by decreasing its activation latency by 130% through a redesign of task scheduler.(C/C++)\n' +
-    //     '•Expanded market access to users of HuaWei, Oppo, and Vivo phone users by creating a wrapper around android’s bluetooth manager to detect and correct BT signals allowing on-device Bluetooth Voice-Assistant to work on these phones.(C++)\n' +
-    //     '\n',
-    //     'Company: Peel Solutions Inc.\n' +
-    //     'Role: Co-Founder & CTO\n' +
-    //     'Date: 10/2022 - Present\n' +
-    //     'Location: Seattle, WA\n' +
-    //     'Description: •Co-founded a social media wellness company that provides a platform for extroverts to offer conversation as a service to introverts where they can access on-demand personalized conversations through conversation topics and styles.(50+ Users)\n' +
-    //     '•Built a full-stack mobile private chat app (React, Node.js, Firebase) featuring a pay-to-chat model using Stripe API, user recommendation, and user authentication systems.(Javascript/Typescript)'],
-    //   projectExperience: ['Project: Natural Language 2 Bash (Demo, Code) - 03/2023\n' +
-    //     '  - Trained a model that generates Linux bash commands from English text input by finetuning large language models (BERT, GPT, T5) using custom data-set generated from GPT-3.5-Turbo. Technologies used include PyTorch, Pandas.\n' +
-    //     '\n',
-    //   'Project: GPT Voice Assistant (Demo, Code) - 03/2023\n' +
-    //   '  - Built a mobile chatbot powered by GPT3.5Turbo API and text2Speech function using phone speakers. Technologies used include React Native, Node.js, Firebase.\n' +
-    //   '\n',
-    //   'Project: Smart Image Captioner - 11/2022\n' +
-    //   '  - Created an end-to-end image captioning system by training an Encoder-Decoder model on the MS COCO dataset. Technologies used include CUDA, PyTorch.\n' +
-    //   '\n',
-    //   'Project: Data Hiding in Robot Cars (Demo, Code) - 01/2020\n' +
-    //   '  - Designed and prototyped a secure wireless communication method for autonomous robot cars using steganographic methods in an adaptive cruise control scenario in simulation. Technologies used include Python, OOP.']
-    // }
-    // setResumeSections(completeResume || null);
+    
     if (canParse) {
       // Asynchronous operation (e.g., API call, fetching data, etc.)
-      // setLoading(true);
+      setLoading(true);
       try {
         if (clerkId !== null) {
           // const completeResume = await tailorResume(clerkId);
@@ -136,7 +94,9 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
             const user = await getUserById(clerkId);
             const jobD = user.jobDescription;
             const res = user.completeResume;
-            setShowOriginal(true);
+            setShowOriginal(true); 
+            // setLoading(true);
+            setIdle(false);
             // setJobDesForm(user.jobDescription);
             // setFileUpload(" give me a insipirational quotes");
             const initialMessage = `Job Description: ${user.jobDescription}\nResume:" give me a insipirational quotes"`;
@@ -191,9 +151,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
         }
       } catch (error) {
         console.error('Error during async operation:', error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     } else {
       alert("Make sure you uploaded a job description and your resume!")
     }
@@ -201,11 +159,12 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
   // Update newestMessage whenever messages change
   useEffect(() => {
-    console.log("useeffect")
+    
     const filteredMessages = messages.filter(m => m.role !== 'user');
     if (filteredMessages.length > 0) {
       const latestMessageContent = filteredMessages[filteredMessages.length - 1].content;
       setNewestMessage(latestMessageContent);
+      setLoading(false);
     }
   }, [messages]);
 
@@ -230,7 +189,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
       sections.skills = rawSkills;
     }
-    console.log(sections.skills)
+
     // Extract Work Experience section
     const workExpSection = resume.match(/Work Experience:\s*([\s\S]*?)(?=Project Experience:|$)/i);
     if (workExpSection) {
@@ -257,11 +216,12 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
   };
 
 
-  const handleEditSection = () => {
-    console.log(newestMessage)
+  const handleEditSection = () => { 
     const parsedSections = parseResume(newestMessage);
     setResumeSections(parsedSections);
     setShowOriginal(false);
+
+    setIdle(false);
   };
 
   const renderFormattedText = (text: string) => {
@@ -279,7 +239,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ flex: '1', maxWidth: '35%', overflowY: 'auto', marginRight: 'auto', marginLeft: '0', marginTop: '50px' }}>
+      <div style={{ flex: '1', maxWidth: '35%', overflowY: 'auto', marginRight: 'auto', marginLeft: '0', marginTop: '10px' }}>
         <section style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
           <div style={{ width: '93%', maxWidth: '400px', marginBottom: '60px', marginLeft: '10px' }}>
             <JobDesForm
@@ -291,7 +251,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               onCompletion={handleJobDesFormCompletion}
             />
           </div>
-          <div className="mt-10" style={{ width: '93%', maxWidth: '400px', marginLeft: '10px' }}>
+          <div className="mt-00" style={{ width: '93%', maxWidth: '400px', marginLeft: '10px' }}>
             <FileUpload
               action="Add"
               userId={userId}
@@ -300,7 +260,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               creditBalance={creditBalance}
               onCompletion={handleFileUploadCompletion}
             />
-            <div style={{ marginTop: '50px' }}>
+            <div style={{ marginTop: '30px' }}>
               {/* <Button style={{ height: '45px', width: '100%', fontSize: '1.5rem', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={handleButtonClick}>
                 <CookieIcon className="mr-2 h-6 w-6" /> Tailor Resume
               </Button> */}
@@ -308,8 +268,11 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
                 <span> Tailor Resume</span>
                 {/* Any SVG or other content goes here */}
               </button>
+              <p style={{ fontSize: '18px', marginBottom: "30px", marginTop: "60px" }}>
+                <span style={{ fontSize: '34px', fontWeight: 'bold' }}>3. </span> Enable subsection editing to finetune your resume:
+            </p>
               <button className='btn-55 ' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '24px' }} onClick={handleEditSection}>
-                <span> Edit Subsections</span>
+                <span> Enable edit subsections</span>
                 {/* Any SVG or other content goes here */}
               </button>
             </div>
@@ -319,27 +282,41 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
       </div>
       <div style={{ flex: '1', maxWidth: '100%' }}>
         <section className="main" style={{ width: '100%', overflowY: 'auto', height: '90vh' }}>
-          {loading ? (<div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', height: '80vh' }}>
+          {idle ? (<div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', height: '80vh' }}>
 
-            <l-jelly-triangle
+            {/* <l-jelly-triangle
               size="105"
               speed="2.9"
               color="#1b2234"
-            ></l-jelly-triangle>
+            ></l-jelly-triangle> */}
             <p style={{
-              fontSize: '21px', marginTop: '40px', textAlign: 'center', opacity: fadeOut ? 0 : 1, transition: 'opacity 0.5s ease-in-out', lineHeight: '1.4', position: 'absolute',
+              fontSize: '21px', marginTop: '120px', textAlign: 'center', opacity: fadeOut ? 0 : 1, transition: 'opacity 0.5s ease-in-out', lineHeight: '1.4', position: 'absolute',
               transform: 'translateY(130%)',
               // Adjust line height for better readability
               maxWidth: '350px',
             }}>
               {loadingTexts[loadingTextIndex]}
-            </p>
-
+            </p> 
+                    <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', fontSize: '16px' }}>
+                        <img src="/assets/images/cat.svg" alt="cat" style={{ width: '550px', height: '550px' }} />
+                        <div style={{ position: 'absolute', bottom: '720px', fontSize: '21px' }}>
+                            Upload a job description and your resume to get started!
+                        </div>
+                    </div>
+ 
           </div>) :
-
+            loading ? (
+              <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', height: '80vh' }}> 
+               <l-jelly-triangle
+            size="105"
+            speed="2.9"
+            color="#1b2234"
+          ></l-jelly-triangle> 
+           </div>
+          ) :
             showOriginal ? (
               // Display newestMessage when showOriginal is true
-              <div className="flex flex-col w-full py-24 mx-auto stretch">
+              <div className="flex flex-col w-full   mx-auto stretch">
                 {/* Render formatted newestMessage */}
                 {newestMessage && renderFormattedText(newestMessage)}
               </div>

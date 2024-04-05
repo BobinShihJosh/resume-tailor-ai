@@ -40,11 +40,17 @@ export function JobDesForm({ action, data = null, userId, type, creditBalance, c
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        startTransition(async () => {
-            await updateJobDescription(userId, values.username)
-        }) 
-        console.log(values.username)
-        onCompletion && onCompletion();
+        startTransition(() => {
+            // Perform state transitions here
+            updateJobDescription(userId, values.username).then(() => {
+                // Code to run after the updateJobDescription function completes
+                console.log(values.username);
+                onCompletion && onCompletion();
+            }).catch(error => {
+                // Handle errors if necessary
+                console.error("Error updating job description:", error);
+            });
+        });
     }
 
     return (
@@ -68,7 +74,11 @@ export function JobDesForm({ action, data = null, userId, type, creditBalance, c
                         </FormItem>
                     )}
                 />
-                <Button type="submit" style={{ width: '100%' }}>Confirm job description</Button>
+                <button className='btn-55 ' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <span> Confirm job description</span>
+                {/* Any SVG or other content goes here */}
+              </button>
+                {/* <Button type="submit" style={{ width: '100%' }}>Confirm job description</Button> */}
             </form>
         </Form>
     )

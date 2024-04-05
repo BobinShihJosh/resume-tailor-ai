@@ -30,8 +30,7 @@ interface ShowResultProps {
 const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections }) => {
 
     const [isPending, startTransition] = useTransition()
-    const [loading, setLoading] = useState(false);
-    const [generatedBios, setGeneratedBios] = useState(" ");
+    const [loading, setLoading] = useState(false); 
     const [resumeSections, setResumeSections] = useState<{
         skills: string;
         workExperience: string[];
@@ -371,8 +370,7 @@ const ShowResult: FC<ShowResultProps> = ({ UserId, clerkID, tmpResumeSections })
         </div>
     } else {
         return (
-            <div style={{ margin: '0 auto', textAlign: 'center' }}>
-                <p>{generatedBios}</p>
+            <div style={{ margin: '0 auto', textAlign: 'center' }}> 
                 {!resumeSections ? (
                     <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', fontSize: '16px' }}>
                         <img src="/assets/images/cat.svg" alt="cat" style={{ width: '550px', height: '550px' }} />
