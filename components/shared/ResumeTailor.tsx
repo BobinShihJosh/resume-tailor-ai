@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react';
+import { auth } from '@clerk/nextjs';
 
 import { JobDesForm } from '@/components/shared/JobDesForm';
 import { FileUpload } from '@/components/shared/FileUpload';
@@ -28,7 +29,7 @@ interface ResumeSections {
   projectExperience: string[];
 }
 const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalance, config = null }: TransformationFormProps) => {
-
+  
   const [jobDesFormCompleted, setJobDesFormCompleted] = useState(false);
   const [fileUploadCompleted, setFileUploadCompleted] = useState(false);
   const [ idle, setIdle ] = useState(true);
@@ -76,7 +77,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
         setPrevLoadingTextIndex(newIndex);
         setFadeOut(false);
       }, 500); // Delay text change for 0.5 seconds (500 milliseconds)
-    }, 5000); // Change text every 5 seconds (5000 milliseconds)
+    }, 3000); // Change text every 5 seconds (5000 milliseconds)
 
     return () => clearInterval(interval); // Clean up interval on component unmount
   }, [prevLoadingTextIndex]);
@@ -239,9 +240,9 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ flex: '1', maxWidth: '35%', overflowY: 'auto', marginRight: 'auto', marginLeft: '0', marginTop: '10px' }}>
+      <div style={{ flex: '1', maxWidth: '35%', overflowY: 'auto', marginRight: 'auto', marginLeft: '0'  }}>
         <section style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ width: '93%', maxWidth: '400px', marginBottom: '60px', marginLeft: '10px' }}>
+          <div style={{ width: '93%', maxWidth: '400px', marginBottom: '50px', marginLeft: '10px' }}>
             <JobDesForm
               action="Add"
               userId={userId}
@@ -251,7 +252,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               onCompletion={handleJobDesFormCompletion}
             />
           </div>
-          <div className="mt-00" style={{ width: '93%', maxWidth: '400px', marginLeft: '10px' }}>
+          <div   style={{ width: '93%', maxWidth: '400px', marginLeft: '10px' }}>
             <FileUpload
               action="Add"
               userId={userId}
@@ -269,7 +270,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
                 {/* Any SVG or other content goes here */}
               </button>
               <p style={{ fontSize: '18px', marginBottom: "30px", marginTop: "60px" }}>
-                <span style={{ fontSize: '34px', fontWeight: 'bold' }}>3. </span> Enable subsection editing to finetune your resume:
+                <span style={{ fontSize: '34px', fontWeight: 'bold' }}>3. </span> Enable subsection editing for finetuning:
             </p>
               <button className='btn-55 ' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '24px' }} onClick={handleEditSection}>
                 <span> Enable edit subsections</span>
@@ -299,9 +300,9 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
             </p> 
                     <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', fontSize: '16px' }}>
                         <img src="/assets/images/cat.svg" alt="cat" style={{ width: '550px', height: '550px' }} />
-                        <div style={{ position: 'absolute', bottom: '720px', fontSize: '21px' }}>
+                        {/* <div style={{ position: 'absolute', bottom: '720px', fontSize: '21px' }}>
                             Upload a job description and your resume to get started!
-                        </div>
+                        </div> */}
                     </div>
  
           </div>) :

@@ -14,6 +14,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 
+import { redirect } from 'next/navigation';
 import { Textarea } from "@/components/ui/textarea"
 import { updateJobDescription } from "@/lib/actions/user.actions"
 
@@ -37,7 +38,7 @@ export function JobDesForm({ action, data = null, userId, type, creditBalance, c
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof formSchema>) { 
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         startTransition(() => {

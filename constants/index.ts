@@ -1,29 +1,29 @@
 export const navLinks = [
     {
-      label: "Home",
+      label: "Resume Tailor",
       route: "/",
-      icon: "/assets/icons/home.svg",
+      icon: "/assets/icons/stars.svg",
     },
     // {
     //   label: "Image Restore",
     //   route: "/transformations/add/restore",
     //   icon: "/assets/icons/image.svg",
     // },
-    {
-      label: "Tailor Resume",
-      route: "/transformations/add/fill",
-      icon: "/assets/icons/filter.svg",
-    },
+    // {
+    //   label: "Tailor Resume",
+    //   route: "/transformations/add/fill",
+    //   icon: "/assets/icons/stars.svg",
+    // },
     // {
     //   label: "Object Remove",
     //   route: "/transformations/add/remove",
     //   icon: "/assets/icons/scan.svg",
     // },
-    {
-      label: "Tailor Cover Letter",
-      route: "/transformations/add/recolor",
-      icon: "/assets/icons/stars.svg",
-    },
+    // {
+    //   label: "Tailor Cover Letter",
+    //   route: "/transformations/add/recolor",
+    //   icon: "/assets/icons/stars.svg",
+    // },
     // {
     //   label: "Background Remove",
     //   route: "/transformations/add/removeBackground",
