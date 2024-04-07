@@ -12,30 +12,35 @@ import { FileUpload } from '@/components/shared/FileUpload'
 import Main from '@/components/shared/Main';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import ResumeTailor from '@/components/shared/ResumeTailor';
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'; 
 
-const Home = async () => {
-  let user = null;
-  const { userId } = auth();
-  if (userId) {
-    user = await getUserById(userId);
-  }
+const Home = async () => { 
+  // const { userId } = auth(); 
+
+  // if (!userId) {
+  //   return (
+  //     <Main
+  //       />
+  //   )
+  // }
+
+  // const user = await getUserById(userId);
   return (
     <div>
       {/* <p>Home</p>
       <UserButton afterSignOutUrl='/'/> */}
       <section >
-        <SignedOut><Main
-        /></SignedOut>
-        {/* <Main 
-        /> */}
-        <SignedIn><ResumeTailor
+        {/* <SignedOut><Main
+        /></SignedOut> */}
+        <Main 
+        />
+        {/* <SignedIn><ResumeTailor
           action="Add"
           userId={user?._id}
           clerkId={userId}
           type={'restore' as TransformationTypeKey}
           creditBalance={user?.creditBalance}
-        /></SignedIn>
+        /></SignedIn>  */}
 
       </section>
     </div>

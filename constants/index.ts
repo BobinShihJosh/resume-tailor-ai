@@ -1,19 +1,19 @@
 export const navLinks = [
     {
-      label: "Resume Tailor",
+      label: "Home",
       route: "/",
-      icon: "/assets/icons/stars.svg",
+      icon: "/assets/icons/home.svg",
     },
     // {
     //   label: "Image Restore",
     //   route: "/transformations/add/restore",
     //   icon: "/assets/icons/image.svg",
     // },
-    // {
-    //   label: "Tailor Resume",
-    //   route: "/transformations/add/fill",
-    //   icon: "/assets/icons/stars.svg",
-    // },
+    {
+      label: "Tailor Resume",
+      route: "/transformations/add/fill",
+      icon: "/assets/icons/stars.svg",
+    },
     // {
     //   label: "Object Remove",
     //   route: "/transformations/add/remove",
