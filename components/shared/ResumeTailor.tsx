@@ -62,7 +62,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
     "Ensure your resume gets past ATS filters and into the hands of recruiters with our assistance.",
     "Beat ATS and land interviews with our optimized resume crafting service.",
     "You've prepared too hard for interviews for your resume to get filtered out by a bot.",
-    "Tailoring each resume manually is too much work, let AI do it for you."
+    "Tailoring each resume manually is too much work, simply let AI do it for you."
   ];
   const [fadeOut, setFadeOut] = useState(false);
 
@@ -298,9 +298,8 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               color="#1b2234"
             ></l-jelly-triangle> */}
             <p style={{
-              fontSize: '21px', marginTop: '120px', textAlign: 'center', opacity: fadeOut ? 0 : 1, transition: 'opacity 0.5s ease-in-out', lineHeight: '1.4', position: 'absolute',
-              transform: 'translateY(130%)',
-              // Adjust line height for better readability
+              fontSize: '21px', marginTop: '120px', textAlign: 'center', opacity: fadeOut ? 0 : 1, transition: 'opacity 0.5s ease-in-out', lineHeight: '1.4', position: 'relative',
+              transform: 'translateY(130%)', 
               maxWidth: '350px',
             }}>
               {loadingTexts[loadingTextIndex]}

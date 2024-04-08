@@ -35,7 +35,7 @@ const styles = {
     marginBottom: '30px',
   },
   statItem: {
-    TextAlign: 'center' as TextAlign,
+    textAlign: 'center' as TextAlign,
     fontSize: '18px',
     marginBottom: '20px',
     display: 'flex',
@@ -53,7 +53,8 @@ const styles = {
   },
   value: {
     fontSize: '38px',
-    color: '#555',
+    color: '#333',
+    fontWeight: 600,
     marginRight: '10px', // Add spacing between value and label
   },
 };

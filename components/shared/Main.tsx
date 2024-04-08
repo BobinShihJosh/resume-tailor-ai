@@ -51,8 +51,8 @@ const Main: React.FC = () => {
                 <SignedIn>
 
                     <Link href="/transformations/add/fill" >
-                        <Button className='btn-55' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%',  fontWeight: 'bold', fontSize: '24px', color: 'white', }}>
-                            Start Tailoring!
+                        <Button className='btn-55' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%',  fontWeight: 600, fontSize: '24px', color: 'white', }}>
+                            Start Tailoring for Free!
                         </Button>
 
                     </Link>
