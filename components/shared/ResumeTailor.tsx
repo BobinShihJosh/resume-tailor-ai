@@ -59,7 +59,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
   const loadingTexts = [
     "Did you know? Around 75% of resume gets filtered out from ATS keyword filtering.",
-    "Ensure your resume gets past ATS filters and into the hands of recruiters with our assistance.",
+    "Ensure your resume gets past ATS filters and into the hands of recruiters with our help.",
     "Beat ATS and land interviews with our optimized resume crafting service.",
     "You've prepared too hard for interviews for your resume to get filtered out by a bot.",
     "Tailoring each resume manually is too much work, simply let AI do it for you."
@@ -298,14 +298,14 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               color="#1b2234"
             ></l-jelly-triangle> */}
             <p style={{
-              fontSize: '21px', marginTop: '120px', textAlign: 'center', opacity: fadeOut ? 0 : 1, transition: 'opacity 0.5s ease-in-out', lineHeight: '1.4', position: 'relative',
-              transform: 'translateY(130%)', 
-              maxWidth: '350px',
+              fontSize: '18px', marginTop: '120px', textAlign: 'center', opacity: fadeOut ? 0 : 1, transition: 'opacity 0.5s ease-in-out', lineHeight: '1.4', position: 'relative',
+              transform: 'translateY(400%)', 
+              maxWidth: '380px',
             }}>
               {loadingTexts[loadingTextIndex]}
             </p>
             <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', fontSize: '16px' }}>
-              <img src="/assets/images/cat.svg" alt="cat" style={{ width: '550px', height: '550px' }} />
+              <img src="/assets/images/cat.svg" alt="cat" style={{ width: '300px', height: '300px' }} />
               {/* <div style={{ position: 'absolute', bottom: '720px', fontSize: '21px' }}>
                             Upload a job description and your resume to get started!
                         </div> */}
