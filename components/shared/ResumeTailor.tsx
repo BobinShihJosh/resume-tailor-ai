@@ -29,10 +29,10 @@ interface ResumeSections {
   projectExperience: string[];
 }
 const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalance, config = null }: TransformationFormProps) => {
-  
+
   const [jobDesFormCompleted, setJobDesFormCompleted] = useState(false);
   const [fileUploadCompleted, setFileUploadCompleted] = useState(false);
-  const [ idle, setIdle ] = useState(true);
+  const [idle, setIdle] = useState(true);
   const { messages, input, append, handleInputChange, handleSubmit } = useChat();
   const [showOriginal, setShowOriginal] = useState(true);
   const [newestMessage, setNewestMessage] = useState<any>(null); // Update with the correct type for newestMessage
@@ -83,7 +83,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
   }, [prevLoadingTextIndex]);
 
   const handleButtonClick = async () => {
-    
+
     if (canParse) {
       // Asynchronous operation (e.g., API call, fetching data, etc.)
       setLoading(true);
@@ -95,7 +95,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
             const user = await getUserById(clerkId);
             const jobD = user.jobDescription;
             const res = user.completeResume;
-            setShowOriginal(true); 
+            setShowOriginal(true);
             // setLoading(true);
             setIdle(false);
             // setJobDesForm(user.jobDescription);
@@ -152,7 +152,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
         }
       } catch (error) {
         console.error('Error during async operation:', error);
-      } 
+      }
     } else {
       alert("Make sure you uploaded a job description and your resume!")
     }
@@ -160,7 +160,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
   // Update newestMessage whenever messages change
   useEffect(() => {
-    
+
     const filteredMessages = messages.filter(m => m.role !== 'user');
     if (filteredMessages.length > 0) {
       const latestMessageContent = filteredMessages[filteredMessages.length - 1].content;
@@ -217,12 +217,16 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
   };
 
 
-  const handleEditSection = () => { 
-    const parsedSections = parseResume(newestMessage);
-    setResumeSections(parsedSections);
-    setShowOriginal(false);
+  const handleEditSection = () => {
+    if (!newestMessage) {
+      alert("Tailor Resume First");
+    } else {
+      const parsedSections = parseResume(newestMessage);
+      setResumeSections(parsedSections);
+      setShowOriginal(false);
 
-    setIdle(false);
+      setIdle(false);
+    }
   };
 
   const renderFormattedText = (text: string) => {
@@ -240,7 +244,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ flex: '1', maxWidth: '35%', overflowY: 'auto', marginRight: 'auto', marginLeft: '0'  }}>
+      <div style={{ flex: '1', maxWidth: '35%', overflowY: 'auto', marginRight: 'auto', marginLeft: '0' }}>
         <section style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
           <div style={{ width: '93%', maxWidth: '400px', marginBottom: '50px', marginLeft: '10px' }}>
             <JobDesForm
@@ -252,7 +256,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               onCompletion={handleJobDesFormCompletion}
             />
           </div>
-          <div   style={{ width: '93%', maxWidth: '400px', marginLeft: '10px' }}>
+          <div style={{ width: '93%', maxWidth: '400px', marginLeft: '10px' }}>
             <FileUpload
               action="Add"
               userId={userId}
@@ -271,9 +275,9 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               </button>
               <p style={{ fontSize: '18px', marginBottom: "30px", marginTop: "60px" }}>
                 <span style={{ fontSize: '34px', fontWeight: 'bold' }}>3. </span> Enable subsection editing for finetuning:
-            </p>
+              </p>
               <button className='btn-55 ' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '24px' }} onClick={handleEditSection}>
-                <span> Enable edit subsections</span>
+                <span> Enable Edit Subsections</span>
                 {/* Any SVG or other content goes here */}
               </button>
             </div>
@@ -297,38 +301,38 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
               maxWidth: '350px',
             }}>
               {loadingTexts[loadingTextIndex]}
-            </p> 
-                    <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', fontSize: '16px' }}>
-                        <img src="/assets/images/cat.svg" alt="cat" style={{ width: '550px', height: '550px' }} />
-                        {/* <div style={{ position: 'absolute', bottom: '720px', fontSize: '21px' }}>
+            </p>
+            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', textAlign: 'center', fontSize: '16px' }}>
+              <img src="/assets/images/cat.svg" alt="cat" style={{ width: '550px', height: '550px' }} />
+              {/* <div style={{ position: 'absolute', bottom: '720px', fontSize: '21px' }}>
                             Upload a job description and your resume to get started!
                         </div> */}
-                    </div>
- 
+            </div>
+
           </div>) :
             loading ? (
-              <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', height: '80vh' }}> 
-               <l-jelly-triangle
-            size="105"
-            speed="2.9"
-            color="#1b2234"
-          ></l-jelly-triangle> 
-           </div>
-          ) :
-            showOriginal ? (
-              // Display newestMessage when showOriginal is true
-              <div className="flex flex-col w-full   mx-auto stretch">
-                {/* Render formatted newestMessage */}
-                {newestMessage && renderFormattedText(newestMessage)}
+              <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', height: '80vh' }}>
+                <l-jelly-triangle
+                  size="105"
+                  speed="2.9"
+                  color="#1b2234"
+                ></l-jelly-triangle>
               </div>
-            ) : (
-              // Render ShowResult component when showOriginal is false
-              <ShowResult
-                UserId={userId}
-                clerkID={clerkId}
-                tmpResumeSections={resumeSections}
-              />
-            )
+            ) :
+              showOriginal ? (
+                // Display newestMessage when showOriginal is true
+                <div className="flex flex-col w-full   mx-auto stretch">
+                  {/* Render formatted newestMessage */}
+                  {newestMessage && renderFormattedText(newestMessage)}
+                </div>
+              ) : (
+                // Render ShowResult component when showOriginal is false
+                <ShowResult
+                  UserId={userId}
+                  clerkID={clerkId}
+                  tmpResumeSections={resumeSections}
+                />
+              )
           }
 
         </section>

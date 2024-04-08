@@ -9,7 +9,7 @@ const Main: React.FC = () => {
     const videoUrl = "/assets/videos/resumeaidemo.mov";
     const description = " ";
 
- 
+
     return (
         <div style={{ textAlign: 'center' }}>
             <h1 style={{ fontSize: '2em', marginBottom: '20px', color: 'black' }}>{title}</h1>
@@ -26,16 +26,42 @@ const Main: React.FC = () => {
             <p style={{ fontSize: '1.2em', marginBottom: '40px' }}>{description}</p>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <SignedOut>
-                    <Button className='btn-55' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '30%' }}>
-                        <Link href="/sign-in" style={{ textDecoration: 'none', color: 'inherit', width: '100%', textAlign: 'center' }}>
-                            Get started
-                        </Link>
-                    </Button>
+                    <Link href="/sign-in" passHref>
+                        <Button
+                            className='btn-55'
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100%',
+                                textDecoration: 'none', // Ensure no underline on Button
+                                color: "white"
+                            }}
+
+                        >
+                            Get Started For Free
+                        </Button>
+                    </Link>
                 </SignedOut>
+                <SignedIn>
+
+                    <Link href="/transformations/add/fill" >
+                        <Button className='btn-55' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '20%', fontWeight: 'bold', fontSize: '34px', color: 'white', }}>
+                            Start Tailoring!
+                        </Button>
+
+                    </Link>
+
+                    {/* <Button className='btn-55' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '30%', height: '70%' }}>
+                        <Link href="/transformations/add/fill" style={{ textDecoration: 'none', fontWeight: 'bold', fontSize: '34px', color: 'white', width: '100%', textAlign: 'center' }}>
+                            Start Tailoring!
+                        </Link>
+                    </Button> */}
+                </SignedIn>
             </div>
         </div>
     );
-    
+
 };
 
 export default Main;

@@ -6,19 +6,40 @@ import { useState, useRef } from 'react';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import { Button } from "@/components/ui/button";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
 // Register the necessary plugins (e.g., FilePondPluginFileEncode)
 // Make sure to install the required plugins using npm or yarn
-registerPlugin(FilePondPluginFileValidateType); 
+registerPlugin(FilePondPluginFileValidateType);
 
 export function FileUpload({ action, data = null, userId, type, creditBalance, config = null, onCompletion }: TransformationFormProps) {
   const filePondRef = useRef<FilePond | null>(null); // Replace FilePond with the actual type if needed
+  const [uploaded, setUploaded] = useState(false);
+
+  useEffect(() => {
+    if (uploaded === true) {
+      console.log("up;padinsdisidns")
+      toast('🦄 Job Description Confirmed!', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setUploaded(false);
+    }
+  }, [uploaded]);
 
   const handleFileUpload = async () => {
     // Get the current FilePond instance
-    const filePondInstance = filePondRef.current; 
+    const filePondInstance = filePondRef.current;
     if (filePondInstance) {
       // Assuming you've imported FilePond type, replace it with the actual type if needed
-       
+
       try {
         const files = filePondInstance.getFiles();
         // Assuming you've imported FilePond type, replace it with the actual type if needed
@@ -31,13 +52,13 @@ export function FileUpload({ action, data = null, userId, type, creditBalance, c
       }
     }
   };
-  
+
 
   return (
     <div >
       <p style={{ fontSize: '18px', marginBottom: "30px" }}>
-                <span style={{ fontSize: '34px', fontWeight: 'bold' }}>2. </span> Upload your resume in PDF format:
-            </p>
+        <span style={{ fontSize: '34px', fontWeight: 'bold' }}>2. </span> Upload your resume in PDF format:
+      </p>
       <FilePond
         ref={filePondRef}
         server={{
@@ -62,10 +83,12 @@ export function FileUpload({ action, data = null, userId, type, creditBalance, c
           // Handle files when they are processed/uploaded
           console.log('Files processed/uploaded');
           onCompletion && onCompletion();
-        }}
-      /> 
-      {/* <Button type="submit" style={{ width: '100%', marginTop:'18px' }} onClick={handleFileUpload}>Submit</Button> */}
+          setUploaded(true);
 
+        }}
+      />
+      {/* <Button type="submit" style={{ width: '100%', marginTop:'18px' }} onClick={handleFileUpload}>Submit</Button> */}
+      <ToastContainer />
     </div>
   );
 }

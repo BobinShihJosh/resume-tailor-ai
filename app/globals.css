@@ -331,7 +331,7 @@
   }
 
   .sidebar-nav_element {
-    @apply flex-center p-16-semibold w-full whitespace-nowrap rounded-md bg-cover transition-all hover:bg-purple-100 hover:shadow-inner;
+    @apply flex-center p-16-semibold w-full whitespace-nowrap rounded-md bg-cover transition-all hover:bg-purple-100  ;
   }
 
   .sidebar-link {
@@ -397,11 +397,12 @@
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
     Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  font-size: 100%;
+  font-size: 130%;
   line-height: 1.5;
   margin: 0;
   -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
   padding: 0;
+  
 }
 .btn-55:disabled {
   cursor: default;
@@ -426,10 +427,11 @@
   overflow: hidden;
   padding: 1.8rem 5rem;
   position: relative;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
+  font-weight: normal;
 }
 .btn-55 span {
-  background: #1e293b;
+  background: #2e3d54;
   border-radius: 999px;
   color: #fff;
   display: grid;
