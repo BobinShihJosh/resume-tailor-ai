@@ -4,10 +4,8 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import { useState, useRef } from 'react';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import { Button } from "@/components/ui/button";
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Button } from "@/components/ui/button"; 
+import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 // Register the necessary plugins (e.g., FilePondPluginFileEncode)
 // Make sure to install the required plugins using npm or yarn
@@ -20,16 +18,8 @@ export function FileUpload({ action, data = null, userId, type, creditBalance, c
   useEffect(() => {
     if (uploaded === true) {
       console.log("up;padinsdisidns")
-      toast('🦄 Job Description Confirmed!', {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      toast.success('Resume Uploaded!')
+       
       setUploaded(false);
     }
   }, [uploaded]);
@@ -88,7 +78,7 @@ export function FileUpload({ action, data = null, userId, type, creditBalance, c
         }}
       />
       {/* <Button type="submit" style={{ width: '100%', marginTop:'18px' }} onClick={handleFileUpload}>Submit</Button> */}
-      <ToastContainer />
+            < Toaster/>  
     </div>
   );
 }

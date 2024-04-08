@@ -11,6 +11,7 @@ import { getUserById, tailorResume, splitSections } from "@/lib/actions/user.act
 import ShowResult from './ShowResult';
 import TestAI from './TestAI';
 import { useChat } from 'ai/react';
+import toast, { Toaster } from 'react-hot-toast';
 
 import Completion from './Completion';
 // import { jellyTriangle } from 'ldrs';
@@ -108,7 +109,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
             for the skills section
             find all the frameworks/libraries/programing languages/databases/technologies needed and add that to the skills section that already exists. don't include titles or headings such as "tailored/additional skills" just go straight to the content.
             
-            Now for the work experience and project experience based on the job description tailor each subection work/project experience's bullet point to reflect the job description. Take what the existing accomplishments in each bullet point and re-phrase it in a way that uses the relevent technologies in the job description(the skills you extracted from the skills section). Based on given bullet points, rephrase to use the tools, skills and technologies mentioned in job description. Don't delete the existing bullet points or sentences, only improve it and add new bullet points and sentences by giving example of an accomplishment. Use this sentence structure(with different words): Implemented... by utilizing...(technology)...achieved...(results, include a made up metric/stat). bold the skills extracted from the job description. Be sure to add heading for skills, work experience and project experience.`
+            Now for the work experience and project experience based on the job description tailor each subection work/project experience's bullet point to reflect the job description. Take what the existing accomplishments in each bullet point and re-phrase it in a way that uses the relevent technologies in the job description(the skills you extracted from the skills section). Based on given bullet points, rephrase to use the tools, skills and technologies mentioned in job description. Make sure the skills is relevent to the job description and bullet point. For example If bullet point accomplishment is frontend related only include skills that are frontend, etc. Don't delete the existing bullet points or sentences, only improve it and add new bullet points and sentences by giving example of an accomplishment. Use this sentence structure(with different words): Implemented... by utilizing...(technology)...achieved...(results, include a made up metric/stat). bold the skills extracted from the job description. Be sure to add heading for skills, work experience and project experience.`
 
 
             append({ role: 'user', content: skillsText });
@@ -154,7 +155,7 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
         console.error('Error during async operation:', error);
       }
     } else {
-      alert("Make sure you uploaded a job description and your resume!")
+      toast.error("Make sure you uploaded a job description and your resume!") 
     }
   };
 
@@ -218,8 +219,10 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
 
   const handleEditSection = () => {
-    if (!newestMessage) {
-      alert("Tailor Resume First");
+    if (!newestMessage) { 
+      toast('Tailor Resume First!', {
+        icon: '👋',
+      });
     } else {
       const parsedSections = parseResume(newestMessage);
       setResumeSections(parsedSections);
@@ -337,6 +340,8 @@ const ResumeTailor = ({ action, data = null, userId, clerkId, type, creditBalanc
 
         </section>
       </div>
+
+      < Toaster/>  
     </div>
 
   );

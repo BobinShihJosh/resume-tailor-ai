@@ -12,9 +12,9 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+} from "@/components/ui/form" 
+import toast, { Toaster } from 'react-hot-toast';
+
 import { redirect } from 'next/navigation';
 import { Textarea } from "@/components/ui/textarea"
 import { updateJobDescription } from "@/lib/actions/user.actions"
@@ -46,16 +46,8 @@ export function JobDesForm({ action, data = null, userId, type, creditBalance, c
             // Perform state transitions here
             updateJobDescription(userId, values.username).then(() => {
                 // Code to run after the updateJobDescription function completes
-                toast('🦄 Job Description Confirmed!', {
-                    position: "top-center",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark", 
-                    });
+                toast.success('Job Description Confirmed!')
+
                 onCompletion && onCompletion();
 
             }).catch(error => {
@@ -93,7 +85,7 @@ export function JobDesForm({ action, data = null, userId, type, creditBalance, c
                 </button>
                 {/* <Button type="submit" style={{ width: '100%' }}>Confirm job description</Button> */}
             </form>
-            <ToastContainer  />
+            < Toaster/>   
         </Form>
 
     )
